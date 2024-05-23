@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/basic.html}">
+
+<div layout:fragment="content">
+    <div class="row mt-3">
+        <form action="/stock/stock-list" method="get">
+            <div class="col">
+                <input type="hidden" name="size" th:value="${pageRequestDTO.size}">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <select class="form-select" name="type">
+                            <option value="">---</option>
+                            <option value="케이스" th:selected="${pageRequestDTO.type == '케이스'}">케이스</option>
+                            <option value="CPU" th:selected="${pageRequestDTO.type == 'CPU'}">CPU</option>
+                            <option value="키보드" th:selected="${pageRequestDTO.type == '키보드'}">키보드</option>
+                            <option value="메모리" th:selected="${pageRequestDTO.type == '메모리'}">메모리</option>
+                            <option value="모니터" th:selected="${pageRequestDTO.type == '모니터'}">모니터</option>
+                            <option value="마우스" th:selected="${pageRequestDTO.type == '마우스'}">마우스</option>
+                            <option value="파워" th:selected="${pageRequestDTO.type == '파워'}">파워</option>
+                            <option value="그래픽카드" th:selected="${pageRequestDTO.type == '그래픽카드'}">그래픽카드</option>
+                            <option value="유선랜카드" th:selected="${pageRequestDTO.type == '유선랜카드'}">유선랜카드</option>
+                            <option value="무선랜카드" th:selected="${pageRequestDTO.type == '무선랜카드'}">무선랜카드</option>
+                            <option value="스피커" th:selected="${pageRequestDTO.type == '스피커'}">스피커</option>
+                        </select>
+                    </div>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary searchBtn" type="submit">검색</button>
+                        <button class="btn btn-outline-secondary clearBtn" type="button">초기화</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    자재 목록
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">자재 목록 </h5>
+
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">자재번호</th>
+                            <th scope="col">제품이름</th>
+                            <th scope="col">재고량</th>
+                        </tr>
+                        </thead>
+                        <tbody th:with="link = ${pageRequestDTO.getLink()}">
+                        <tr th:each="dto:${responseDTO.dtoList}">
+                            <th scope="row">[[${dto.sno}]]</th>
+                            <td><a th:href="|@{/stock/stock-detail(FKpName=${dto.FKpname})}|" th:text="${dto.FKpname}"></a></td>
+                            <td>[[${dto.samount}]]</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="float-end">
+                        <ul class="pagination flex-wrap">
+                            <li class="page-item" th:if="${responseDTO.prev}">
+                                <a class="page-link" th:data-num="${responseDTO.start - 1}">Previous</a>
+                            </li>
+                            <th:block th:each="i: ${#numbers.sequence(responseDTO.start, responseDTO.end)}">
+                                <li th:class="${responseDTO.page == i}?'page-item active':'page-item'">
+                                    <a class="page-link" th:data-num="${i}">[[${i}]]</a>
+                                </li>
+                            </th:block>
+                            <li class="page-item" th:if="${responseDTO.next}">
+                                <a class="page-link" th:data-num="${responseDTO.end + 1}">Next</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script layout:fragment="script" th:inline="javascript">
+
+    document.querySelector(".pagination").addEventListener("click", function (e){
+        e.preventDefault()
+        e.stopPropagation()
+
+        const target = e.target
+
+        if (target.tagName !== 'A') {
+            return
+        }
+
+        const num = target.getAttribute("data-num")
+
+        const formObj = document.querySelector("form")
+
+        formObj.innerHTML += `<input type='hidden' name='page' value='${num}'>`
+
+        formObj.submit();
+
+    },false)
+
+    document.querySelector(".clearBtn").addEventListener("click", function (e){
+        e.preventDefault()
+        e.stopPropagation()
+
+        self.location = '/stock/stock-list'
+    }, false)
+
+</script>
+</html>

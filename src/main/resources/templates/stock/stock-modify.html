@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout/basic.html}">
+<head>
+    <title>수정</title>
+</head>
+<div layout:fragment="content">
+    <div class="row mt-3">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    수정
+                </div>
+                <div class="card-body">
+                    <form th:action="@{/stock/stock-modify}" method="post" id="f1">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">자재번호</span>
+                            <input type="text" class="form-control" th:value="${dto.sno}" name="sno" readonly>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">제품이름</span>
+                            <input type="text" class="form-control" th:value="${dto.FKpname}" readonly>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">입고일자</span>
+                            <input type="text" class="form-control" th:value="${#temporals.format(dto.regDate, 'yyyy-MM-dd')}" readonly>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">출고일자</span>
+                            <input type="text" class="form-control" th:value="${#temporals.format(dto.modDate, 'yyyy-MM-dd')}" readonly>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">반품수량</span>
+                            <input type="text" class="form-control" th:value="${dto.sreturn}" readonly>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">재고량</span>
+                            <input type="text" class="form-control" th:value="${dto.samount}" readonly>
+                        </div>
+
+                        <div class="my-4">
+                            <div class="float-end">
+                                <button type="button" class="btn btn-primary listBtn">목록</button>
+                                <button type="button" class="btn btn-secondary modBtn">수정</button>
+                                <button type="button" class="btn btn-danger removeBtn">삭제</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script layout:fragment="script" th:inline="javascript">
+
+    const errors = [[${errors}]]
+    console.log(errors)
+
+    let errorMsg = ''
+
+    if (errors) {
+        for (let i = 0; i < errors.length; i++) {
+            errorMsg += `${errors[i].field}은(는) ${errors[i].code} \n`
+        }
+        history.replaceState({}, null, null)
+        alert(errorMsg)
+    }
+
+    const link = [[${pageRequestDTO.getLink()}]]
+    const formObj = document.querySelector("#f1")
+
+    document.querySelector(".modBtn").addEventListener("click", function (e) {
+        e.preventDefault()
+        e.stopPropagation()
+
+        formObj.action = `/order1/order-modify?${link}`
+        formObj.method = 'post'
+        formObj.submit()
+
+    }, false);
+
+    document.querySelector(".removeBtn").addEventListener("click", function (e) {
+        e.preventDefault()
+        e.stopPropagation()
+
+        formObj.action = `/order1/order-remove`
+        formObj.method = 'post'
+        formObj.submit()
+
+    }, false);
+
+    document.querySelector(".listBtn").addEventListener("click", function (e) {
+        e.preventDefault()
+        e.stopPropagation()
+
+        formObj.reset()
+        self.location = `/order1/order-list?${link}`
+
+    }, false);
+
+</script>
+
+</html>

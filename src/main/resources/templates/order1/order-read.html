@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout/basic.html}">
+
+<head>
+    <title>상세 보기</title>
+</head>
+<div layout:fragment="content">
+    <div class="row mt-3">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    상세 보기
+                </div>
+                <div class="card-body">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">글번호</span>
+                        <input type="text" class="form-control" th:value="${dto.orderNo}" readonly>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">품목코드</span>
+                        <input type="text" class="form-control" th:value="${dto.Product.pcode}" readonly>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">품목이름</span>
+                        <input type="text" class="form-control" th:value="${dto.Product.pname}" readonly>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">상세내용</span>
+                        <input type="text" class="form-control" th:value="${dto.Product.pcontent}" readonly>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">발주일자</span>
+                        <input type="text" class="form-control" th:value="${#temporals.format(dto.regDate, 'yyyy-MM-dd')}" readonly>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">발주수량</span>
+                        <input type="text" class="form-control" th:value="${dto.orderCount}" readonly>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">단가</span>
+                        <input type="text" class="form-control" th:value="${dto.orderPrice}" readonly>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">담당자</span>
+                        <input type="text" class="form-control" th:value="${dto.orderManager}" readonly>
+                    </div>
+                    <div class="my-4">
+                        <div class="form-end" th:with="link = ${pageRequestDTO.getLink()}">
+                            <a th:href="|@{/order1/order-list}?${link}|" class="text-decoration-none">
+                                <button type="button" class="btn btn-primary">목록</button>
+                            </a>
+                            <a th:href="|@{/order1/order-modify(orderNo=${dto.orderNo})}&${link}|" class="text-decoration-none">
+                                <button type="button" class="btn btn-secondary">수정</button>
+                            </a>
+                            <a th:href="|@{/order1/inspection-register(orderNo=${dto.orderNo})}|" class="text-decoration-none">
+                                <button type="button" class="btn btn-danger">검수</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script layout:fragment="script" th:inline="javascript">
+
+
+</script>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/basic.html}">
+
+<head>
+  <title>Board Register</title>
+</head>
+
+<div layout:fragment="content">
+  <div class="row mt-3">
+    <div class="col">
+      <div class="card">
+        <div class="card-header">
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">[[${FKpName}]] </h5>
+
+          <table class="table">
+            <thead>
+            <tr>
+              <th scope="col">신청자</th>
+              <th scope="col">담당자</th>
+              <th scope="col">요청 개수</th>
+              <th scope="col">입고 수</th>
+              <th scope="col">출고 수</th>
+              <th scope="col">반품 수</th>
+            </tr>
+            </thead>
+            <tr th:each="dto:${dto}">
+              <td>[[${dto.hRequester}]]</td>
+              <td>[[${dto.hManager}]]</td>
+              <td>[[${dto.hRequest}]]</td>
+              <td>[[${dto.sin}]]</td>
+              <td>[[${dto.sout}]]</td>
+              <td>[[${dto.sreturn}]]</td>
+            </tr>
+          </table>
+          <button class="btn btn-outline-secondary clearBtn" type="button"><a th:href="|@{/stock/stock-list}|">자재 목록</a></button>
+        </div>
+      </div>
+    </div>
+  </div><!-- end row-->
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+  <script src="/js/upload.js"></script>
+
+</div><!-- layout fragment end -->
+
+<script layout:fragment="script" th:inline="javascript">
+
+
+
+</script>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout/basic.html}">
+
+<head>
+    <title>상세 보기</title>
+</head>
+<div layout:fragment="content">
+    <div class="row mt-3">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    조달계획 상세보기
+                </div>
+                <div class="card-body">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">품목코드</span>
+                        <input type="text" class="form-control" th:value="${dto.opcode}" readonly>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">품목이름</span>
+                        <input type="text" class="form-control" th:value="${dto.opname}" readonly>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">소요공정</span>
+                        <input type="text" class="form-control" th:value="${dto.optuseprocess}" readonly>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">소요일정</span>
+                        <input type="text" class="form-control" th:value="${dto.optusedate}" readonly>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">소요량</span>
+                        <input type="text" class="form-control" th:value="${dto.optusecount}" readonly>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">조달납기</span>
+                        <input type="text" class="form-control" th:value="${dto.opdeliverydate}" readonly>
+                    </div>
+                    <div class="my-4">
+                        <div class="form-end" th:with="link = ${pageRequestDTO.getLink()}">
+                            <a th:href="|@{/order_plan/op-list}?${link}|" class="text-decoration-none">
+                                <button type="button" class="btn btn-primary">목록</button>
+                            </a>
+                            <a th:href="|@{/order_plan/op-modify(opno=${dto.opno})}&${link}|" class="text-decoration-none">
+                                <button type="button" class="btn btn-secondary">수정</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script layout:fragment="script" th:inline="javascript">
+
+
+</script>
+</html>

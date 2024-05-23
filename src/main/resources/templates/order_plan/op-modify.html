@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout/basic.html}">
+<head>
+    <title>수정</title>
+</head>
+<div layout:fragment="content">
+    <div class="row mt-3">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    조달계획 수정하기
+                </div>
+                <div class="card-body">
+                    <form th:action="@{/order_plan/op-modify}" method="post" id="f1">
+                        <input  type="hidden" class="form-control" th:value="${dto.opno}" name="opno" readonly>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">품목코드</span>
+                            <input type="text" class="form-control" th:value="${dto.opcode}" name="opcode" readonly>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">품목이름</span>
+                            <input type="text" class="form-control" th:value="${dto.opname}" name="opname" readonly>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">소요공정</span>
+                            <input type="text" class="form-control" th:value="${dto.optuseprocess}" name="optuseprocess">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">소요일정</span>
+                            <input type="date" class="form-control" th:value="${dto.optusedate}" name="optusedate">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">소요량</span>
+                            <input type="text" class="form-control" th:value="${dto.optusecount}" name="optusecount">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">조달납기</span>
+                            <input type="date" class="form-control" th:value="${dto.opdeliverydate}" name="opdeliverydate">
+                        </div>
+                        <div class="my-4">
+                            <div class="float-end">
+                                <button type="button" class="btn btn-primary listBtn">목록</button>
+                                <button type="button" class="btn btn-secondary modBtn">수정완료</button>
+                                <button type="button" class="btn btn-danger removeBtn">삭제</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script layout:fragment="script" th:inline="javascript">
+
+    const errors = [[${errors}]]
+    console.log(errors)
+
+    let errorMsg = ''
+
+    if (errors) {
+        for (let i = 0; i < errors.length; i++) {
+            errorMsg += `${errors[i].field}은(는) ${errors[i].code} \n`
+        }
+        history.replaceState({}, null, null)
+        alert(errorMsg)
+    }
+
+    const link = [[${pageRequestDTO.getLink()}]]
+    const formObj = document.querySelector("#f1")
+
+    document.querySelector(".modBtn").addEventListener("click", function (e) {
+        e.preventDefault()
+        e.stopPropagation()
+
+        if(!confirm("수정하시겠습니까?")){
+            return;
+        }
+
+        formObj.action = `/order_plan/op-modify?${link}`
+        formObj.method = 'post'
+        formObj.submit()
+
+    }, false);
+
+    document.querySelector(".removeBtn").addEventListener("click", function (e) {
+        e.preventDefault()
+        e.stopPropagation()
+
+        if (!confirm("삭제하시겠습니까?")){
+            return;
+        }
+        formObj.action = `/order_plan/op-remove`
+        formObj.method = 'post'
+        formObj.submit()
+
+    }, false);
+
+    document.querySelector(".listBtn").addEventListener("click", function (e) {
+        e.preventDefault()
+        e.stopPropagation()
+
+        formObj.reset()
+        self.location = `/order_plan/op-list?${link}`
+
+    }, false);
+
+</script>
+
+</html>

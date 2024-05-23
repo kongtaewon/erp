@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/basic.html}">
+
+<head>
+  <title>Board Register</title>
+</head>
+
+<div layout:fragment="content">
+  <div class="row mt-3">
+    <div class="col">
+      <div class="card">
+        <div class="card-header">
+          Board Register
+        </div>
+        <div class="card-body">
+        </div><!--end card body-->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary registerBtn">Register</button>
+          <button type="button" class="btn btn-outline-dark closeRegisterBtn" >Close</button>
+        </div>
+
+      </div><!--end card-->
+    </div><!-- end col-->
+  </div><!-- end row-->
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+  <script src="/js/upload.js"></script>
+
+</div><!-- layout fragment end -->
+
+
+<script layout:fragment="script" th:inline="javascript">
+
+  const closeRegisterBtn = document.querySelector(".closeRegisterBtn")
+
+  const errors = [[${errors}]]
+  console.log(errors)
+
+  let errorMsg = ''
+
+  if(errors){
+    for(let i = 0; i < errors.length; i++){
+      errorMsg += `${errors[i].field}은(는) ${errors[i].code} \n`
+    }
+    alert(errorMsg)
+  }
+
+  closeRegisterBtn.addEventListener("click", function (e){
+    log.info(runQuery());
+  },false)
+
+</script>

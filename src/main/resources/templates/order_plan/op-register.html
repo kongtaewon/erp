@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/basic.html}">
+
+<head>
+    <title>신규등록</title>
+</head>
+<div layout:fragment="content">
+    <div class="row mt-3">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    조달계획 등록하기
+                </div>
+                <div class="card-body">
+                    <form action="/order_plan/op-register" method="post">
+                        <div class="form-group">
+                            <label>품목코드</label>
+                            <input type="text" class="form-control" name="opcode" id="opcode" placeholder="입력하세요.">
+                        </div>
+                        <div class="form-group">
+                            <label>품목이름</label>
+                            <input type="text" class="form-control" name="opname" id="opname" placeholder="입력하세요.">
+                        </div>
+                        <div class="form-group">
+                            <label>소요공정</label>
+                            <input type="text" class="form-control" name="optuseprocess" id="optuseprocess" placeholder="입력하세요.">
+                        </div>
+                        <div class="form-group">
+                            <label>소요일정</label>
+                            <input type="date" class="form-control" name="optusedate" id="optusedate">
+                        </div>
+                        <div class="form-group">
+                            <label>소요량</label>
+                            <input type="text" class="form-control" name="optusecount" id="optusecount" placeholder="입력하세요.">
+                        </div>
+                        <div class="form-group">
+                            <label>조달납기</label>
+                            <input type="date" class="form-control" name="opdeliverydate" id="opdeliverydate">
+                        </div>
+                        <div class="my-4">
+                            <div class="float-end">
+                                <button type="submit" class="btn btn-primary">등록</button>
+                                <button type="button" class="btn btn-primary">목록</button>
+                            </div>
+                        </div>
+                    </form>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Modal body text goes here.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script layout:fragment="script" th:inline="javascript">
+
+    const errors = [[${errors}]]
+    console.log(errors);
+
+    let errorMsg=''
+
+    if (errors) {
+        for (let i = 0; i < errors.length; i++) {
+            errorMsg += `${errors[i].field}은(는) ${errors[i].code} \n`
+        }
+        alert(errorMsg)
+    }
+
+    const result = [[${result}]];
+
+    const modal = new bootstrap.Modal(document.querySelector(".modal"))
+
+
+    if (result) {
+        modal.show()
+    }
+</script>
+</html>

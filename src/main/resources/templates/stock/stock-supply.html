@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/basic.html}" lang="en">
+
+<head>
+    <title>조달 등록</title>
+</head>
+<div layout:fragment="content">
+    <div class="row mt-3">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    조달 등록
+                </div>
+                <div class="card-body">
+                    <form action="/stock/stock-supply" method="post">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text"> 제품명</span>
+                            <input id="fkpname" type="text" name="FKpName" class="form-control addReplyBtn" readonly />
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">개수</span>
+                            <input type="number" name="hRequest" class="form-control" placeholder="개수" />
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">신청일자</span>
+                            <input type="text" class="form-control" name="regdate" th:value="|${now}|" readonly />
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">단가</span>
+                            <input id="price" type="text" name="pprice" class="form-control" placeholder="단가" readonly />
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">담당자</span>
+                            <input type="text" name="hManager" class="form-control" placeholder="담당자" />
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">납기일</span>
+                            <input type="date" name="hduedate" class="form-control" placeholder="납기일" />
+                        </div>
+                        <div class="my-4">
+                            <div class="float-end">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="modal registerModal" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">제품 선택</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="input-group mb-3">
+                                        <select id="type" class="form-select">
+                                            <option name="type" value="">---</option>
+                                            <option name="type" value="마우스" >마우스</option>
+                                            <option name="type" value="케이스">케이스</option>
+                                            <option name="type" value="CPU" >CPU</option>
+                                            <option name="type" value="키보드">키보드</option>
+                                            <option name="type" value="메모리" >메모리</option>
+                                            <option name="type" value="모니터" >모니터</option>
+                                            <option name="type" value="파워" >파워</option>
+                                            <option name="type" value="스피커">스피커</option>
+                                            <option name="type" value="그래픽카드">그래픽카드</option>
+                                            <option name="type" value="유선랜카드">유선랜카드</option>
+                                            <option name="type" value="무선랜카드">무선랜카드</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="input-group mb-3" id="mouseList" style="display: none">
+                                        <select class="form-select" name="sel">
+                                            <option id="mouse" th:each="mouse : ${mouseList}" th:value="${mouse.pname}" th:data-price="${mouse.pprice}" th:text="${mouse.pname}"></option>
+                                        </select>
+                                    </div>
+
+                                    <div class="input-group mb-3" id="cpuList" style="display: none">
+                                        <select class="form-select" name="sel">
+                                            <option id="cpu"  th:each="cpu : ${cpuList}" th:value="${cpu.pname}" th:data-price="${cpu.pprice}"  th:text="${cpu.pname}"></option>
+                                        </select>
+                                    </div>
+
+                                    <div class="input-group mb-3" id="keyList" style="display: none">
+                                        <select  class="form-select" name="sel">
+                                            <option id="key"  th:each="key : ${keyList}" th:value="${key.pname}" th:data-price="${key.pprice}" th:text="${key.pname}"></option>
+                                        </select>
+                                    </div>
+
+                                    <div class="input-group mb-3" id="memList" style="display: none">
+                                        <select  class="form-select" name="sel">
+                                            <option id="mem"  th:each="mem : ${memList}" th:value="${mem.pname}" th:data-price="${mem.pprice}" th:text="${mem.pname}"></option>
+                                        </select>
+                                    </div>
+
+                                    <div class="input-group mb-3" id="monList" style="display: none">
+                                        <select  class="form-select" name="sel">
+                                            <option id="mon"  th:each="mon : ${monList}" th:value="${mon.pname}" th:data-price="${mon.pprice}" th:text="${mon.pname}"></option>
+                                        </select>
+                                    </div>
+
+                                    <div class="input-group mb-3" id="powerList" style="display: none">
+                                        <select  class="form-select" name="sel">
+                                            <option id="power"  th:each="power : ${powerList}" th:value="${power.pname}" th:data-price="${power.pprice}" th:text="${power.pname}"></option>
+                                        </select>
+                                    </div>
+
+                                    <div class="input-group mb-3" id="speakerList" style="display: none">
+                                        <select  class="form-select" name="sel">
+                                            <option id="speaker"  th:each="speaker : ${speakerList}" th:value="${speaker.pname}" th:data-price="${speaker.pprice}" th:text="${speaker.pname}"></option>
+                                        </select>
+                                    </div>
+
+                                    <div class="input-group mb-3" id="graphicList" style="display: none">
+                                        <select  class="form-select" name="sel">
+                                            <option id="graphic"  th:each="graphic : ${graphicList}" th:value="${graphic.pname}" th:data-price="${graphic.pprice}" th:text="${graphic.pname}"></option>
+                                        </select>
+                                    </div>
+
+                                    <div class="input-group mb-3" id="netList" style="display: none">
+                                        <select  class="form-select" name="sel">
+                                            <option id="net"  th:each="net : ${netList}" th:value="${net.pname}" th:data-price="${net.pprice}" th:text="${net.pname}"></option>
+                                        </select>
+                                    </div>
+
+                                    <div class="input-group mb-3" id="wlnList" style="display: none">
+                                        <select  class="form-select" name="sel">
+                                            <option id="wln"  th:each="wln : ${wlnList}" th:value="${wln.pname}" th:data-price="${wln.pprice}" th:text="${wln.pname}"></option>
+                                        </select>
+                                    </div>
+
+                                    <div class="input-group mb-3" id="caseList" style="display: none">
+                                        <select  class="form-select" name="sel">
+                                            <option id="case"  th:each="case : ${caseList}" th:value="${case.pname}" th:data-price="${case.pprice}" th:text="${case.pname}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end regist modal -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end regist modal -->
+</div>
+
+
+<script layout:fragment="script" th:inline="javascript">
+    const errors = [[${errors}]]
+    console.log(errors);
+
+    let errorMsg=''
+
+    if (errors) {
+        for (let i = 0; i < errors.length; i++) {
+            errorMsg += `${errors[i].field}은(는) ${errors[i].code} \n`
+        }
+        alert(errorMsg)
+    }
+
+    //댓글 등록 모달
+    const registerModal = new bootstrap.Modal(document.querySelector(".registerModal"))
+    //registerModel
+
+    document.querySelector(".addReplyBtn").addEventListener("click", function (e){
+        registerModal.show()
+    },false)
+
+    document.getElementById('type').addEventListener('change', function (e){
+        const type = this.value
+        console.log(type)
+        document.getElementById('mouseList').style.display = 'none';
+        document.getElementById('cpuList').style.display = 'none';
+        document.getElementById('keyList').style.display = 'none';
+        document.getElementById('monList').style.display = 'none';
+        document.getElementById('memList').style.display = 'none';
+        document.getElementById('caseList').style.display = 'none';
+        document.getElementById('speakerList').style.display = 'none';
+        document.getElementById('netList').style.display = 'none';
+        document.getElementById('wlnList').style.display = 'none';
+        document.getElementById('graphicList').style.display = 'none';
+        document.getElementById('powerList').style.display = 'none';
+
+        switch (type){
+            case "마우스":
+                document.getElementById('mouseList').style.display = 'block';
+                break;
+            case "CPU":
+                document.getElementById('cpuList').style.display = 'block';
+                break;
+            case "키보드":
+                document.getElementById('keyList').style.display = 'block';
+                break;
+            case "메모리":
+                document.getElementById('memList').style.display = 'block';
+                break;
+            case "모니터":
+                document.getElementById('monList').style.display = 'block';
+                break;
+            case "케이스":
+                document.getElementById('caseList').style.display = 'block';
+                break;
+            case "스피커":
+                document.getElementById('speakerList').style.display = 'block';
+                break;
+            case "유선랜카드":
+                document.getElementById('netList').style.display = 'block';
+                break;
+            case "무선랜카드":
+                document.getElementById('wlnList').style.display = 'block';
+                break;
+            case "그래픽카드":
+                document.getElementById('graphicList').style.display = 'block';
+                break;
+            case "파워":
+                document.getElementById('powerList').style.display = 'block';
+                break;
+
+        }
+    })
+
+    const name = document.getElementsByName("sel")
+    name.forEach(element => element.addEventListener('change', function (e){
+        document.getElementById("fkpname").value = element.value
+        const selected = element.options[element.selectedIndex];
+        document.getElementById("price").value = selected.getAttribute("data-price")
+        registerModal.hide()
+    }))
+
+</script>
+</html>

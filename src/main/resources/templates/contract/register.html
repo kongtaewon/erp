@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/basic.html}">
+
+<head>
+    <title>발주 등록</title>
+</head>
+<div layout:fragment="content">
+    <div class="row mt-3">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    계약 등록
+                </div>
+                <div class="card-body">
+                    <form action="/contract/register" method="post">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">계약코드</span>
+                            <input type="text" name="contractCode" class="form-control" placeholder="계약코드" />
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">계약일자</span>
+                            <input type="date" name="contractDate" class="form-control" placeholder="계약일자"/>
+                        </div>
+                        <div class="input-group mb-3">
+                            <label class="input-group-text">품목코드</label>
+                            <input type="text" value="제품코드를 클릭해주세요." onclick="new_window();" class="form-control" name="product.pcode" id="opcode" readonly>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">품목이름</span>
+                            <input type="text" name="product.pname" class="form-control" id="opname" />
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">상세내용</span>
+                            <input type="text" class="form-control" name="product.pcontent" id="oppcontent" readonly>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">단가</span>
+                            <input type="text" name="product.pprice" class="form-control" id="opprice" placeholder="단가"/>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">사업자등록번호</span>
+                            <input type="text" name="contractState" class="form-control" id="cCNumber"/>
+                        </div>
+                        <div class="input-group mb-3">
+                            <label class="input-group-text">납품업체</label>
+                            <input type="text" value="납품업체를 클릭해주세요" name="company.companyName" onclick="new_window2();" class="form-control" id="companyName"/>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">주소</span>
+                            <input type="text" name="contractState" class="form-control" id="cAddress"/>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">번호</span>
+                            <input type="text" name="contractState" class="form-control" id="cPhonNumber"/>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">팩스</span>
+                            <input type="text" name="contractState" class="form-control" id="cFax"/>
+                        </div>
+                        <div class="my-4">
+                            <div class="float-end">
+                                <button type="submit" class="btn btn-primary">등록</button>
+                                <button type="reset" class="btn btn-secondary">초기화</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Modal body text goes here.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script layout:fragment="script" th:inline="javascript">
+
+    const errors = [[${errors}]]
+    console.log(errors);
+
+    let errorMsg=''
+
+    if (errors) {
+        for (let i = 0; i < errors.length; i++) {
+            errorMsg += `${errors[i].field}은(는) ${errors[i].code} \n`
+        }
+        alert(errorMsg)
+    }
+
+    const result = [[${result}]];
+
+    const modal = new bootstrap.Modal(document.querySelector(".modal"))
+
+
+    if (result) {
+        modal.show()
+    }
+
+    // 품목을 클릭시 품목 리스트 나옴
+    function new_window() {
+        window.open(
+            "/product/product-list3",             //주소
+            "Product",                                    // 창 이름
+            "width=900, height=800, top=100, left=300"    // 창 특성
+        );
+    }
+
+    function new_window2() {
+        window.open(
+            "/company/companyList",             //주소
+            "Company",                                    // 창 이름
+            "width=900, height=800, top=100, left=300"    // 창 특성
+        );
+    }
+</script>
+</html>
